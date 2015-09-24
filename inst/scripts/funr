@@ -1,0 +1,23 @@
+#!/usr/bin/env Rscript
+## Copyright 2014, Sahil Seth
+## licence: MIT
+## sahil.seth@me.com
+## A few functions to supplement those already in this package.
+## URL: github.com/sahilseth/funr
+#### -----------------------
+
+
+## One may define their own functions here
+## or load default packages they use quite often
+## for example load devtools, knitr etc.
+
+## chmod ugo+rx inst/scripts/funr
+
+library(funr)
+out = funr(commandArgs(trailingOnly = TRUE))
+
+
+## Use: print(out$value), if you want the exact output
+## OR use render_funr(out), to render them in a pretty manner
+## Render the output in a nice manner
+render_funr(out)

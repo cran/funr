@@ -1,0 +1,12 @@
+2c2500cec1dbfbe128d35e82fadfdb0f *DESCRIPTION
+3b9cccfd0a201cb10560eb2e0740c613 *NAMESPACE
+8fffe6b9a9af942955359f7cb9d11c41 *R/funr.R
+62c19f0760734da830d9f90ae3f1c8c0 *R/help.R
+16f4887b74ef02a3e2f718735598ca06 *R/parse_params.R
+d23cc416e07831fa9568ffacf85d9466 *R/render.R
+8ae6e3619bd3111fe68c9d8948e9ebf0 *R/setup.R
+d28d3624ee785b6827c139db4565e0d4 *README.md
+a4dd671e2ad57560e2b91e1e830bb796 *inst/scripts/funr
+aa4528dd150042037426b0011e26fe02 *man/funr.Rd
+23145a2501a02cf42ba1f1a895db4e4e *man/render_funr.Rd
+3193b90fbbe8aab7584a8e6dc6c14904 *man/setup.Rd
