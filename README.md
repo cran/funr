@@ -3,6 +3,7 @@ funr
 
 [![Build Status](https://travis-ci.org/sahilseth/funr.svg?branch=master)](https://travis-ci.org/sahilseth/funr)
 [![cran](http://www.r-pkg.org/badges/version/funr)](http://cran.rstudio.com/web/packages/funr/index.html)
+![license](https://img.shields.io/badge/license-MIT-blue.svg)
 
 
 > r fun(ction): 
@@ -21,8 +22,8 @@ funr -h            Show this help
 funr -h <function> Show help for a specific function
 funr -v            Show extra verbose messages for debugging this package
 funr <func>        Find and run <function>
-funr <func> [args] Run <func> with supplied <arguments>
-funr <pkg::func>   Load the package (pkg), and then run <func>
+funr <func> [args] Run <func> with supplied [arguments]
+funr <pkg::func>   Load the package <pkg>, and then run <func>
 ```
 
 
@@ -34,6 +35,9 @@ funr <pkg::func>   Load the package (pkg), and then run <func>
 ```
 ## load help for rnorm
 funr -h rnorm
+```
+
+```
     Normal                  package:stats                  R Documentation
     The Normal Distribution
     Description:
@@ -51,6 +55,9 @@ funr rnorm n=10
 ```
 ## load help file for knitr
 funr -h knitr::knit
+```
+
+```
     knit                   package:knitr                   R Documentation
     Knit a document
     Description:
@@ -64,39 +71,91 @@ funr -h knitr::knit
 ```
 ## get path to an example Rmd file. Assuming we have knitr installed.
 ## Save the filename in a BASH variable rmd
-rmd=$(funr system.file package=knitr fl=examples/knitr-minimal.Rmd)
-echo $rmd
-    /Library/Frameworks/R.framework/Versions/3.2/Resources/library/knitr
-## knit this awesome example !
-funr knitr::knit2html input=$rmd
+## Pipes are supported starting version 0.1.2
+funr system.file package=knitr fl=examples/knitr-minimal.Rmd | funr knitr::knit2html input=-
+```
+
+```
     loading pkg: knitr
     processing file: ... knitr/examples/knitr-minimal.Rmd
     output file: knitr-minimal.md
     knitr-minimal.html
 ```
 
-**Using devtools from terminal**
+**Adding funr to your scripts**
+
+Create a file (called norm.r), which looks like the following:
 
 ```
+#!/usr/bin/env Rscript
+
+# define your functions
+norm_hist <- function(n){
+  x = rnorm(n)
+  
+  hist(x)
+}
+
+library(funr)
+out = funr(commandArgs(trailingOnly = TRUE))
+```
+
+Make sure you have the shebang like with `#!/usr/bin/env Rscript`, so that shell knows that this is a Rscript. 
+Also, add execution privilige to the script using:
+
+```
+chmod ugo+rx norm.r
+```
+
+Now, one may call the function:
+
+```
+norm.r norm_hist n=100
+
+## OR
+Rscript norm.r norm_hist n=100
+```
+
+<!---
+rmd=$(funr system.file package=knitr fl=examples/knitr-minimal.Rmd)
+echo $rmd
+    /Library/Frameworks/R.framework/Versions/3.2/Resources/library/knitr
+## knit this awesome example !
+funr knitr::knit2html input=$rmd
+--->
+
+**Using devtools from terminal**
+
+Its it quite easy to customize the help text and load some default packages.
+
+```
+## download custom funr script
+wget https://github.com/sahilseth/funr/raw/master/inst/scripts/devtools -O ~/bin/devtools
+
 ## installing a repo from github
-funr devtools::install_github repo="sahilseth/flowr"
+devtools install_github repo="sahilseth/flowr"
 
 ## cd into a pacakge you want to check and run
-funr devtools::check
+devtools check .
 
 ## cd into a pacakge you want to build and run
-funr devtools::build
+devtools build .
 ```
 
 ## Highlights:
 - Fetch all named parameters of the function and supply shell arguments after converting to the correct type
 - load help files, providing easy access to R man pages.
-- Automatically load any packages and use any exported functions
+- Automatically load any package and use any of its exported functions
+
+## Updates
+This package is under active-development, 
+you may watch for changes using
+the [watch link above](https://help.github.com/articles/watching-repositories/).
 
 
 ## Installation:
 
-> automatically placed in your bin, and updated when packages gets updated
+> automatically placed in your bin, and updated when the package gets updated
 
 ```
 ## a stable version
@@ -124,7 +183,7 @@ Then you would need to add `~/bin` to your PATH variable. You may do this using 
 echo 'export PATH=$PATH:~/bin' >> ~/.bashrc
 ```
 
-Alternatively you may copy a shortcut to the `funr` script to any of the following folders on a linux/mac machine.
+Alternatively, you may copy a shortcut to the `funr` script to any of the following folders on a linux/mac machine.
 
 ```
 ## Usually Unix based systems already contain these folders in the PATH variable:
