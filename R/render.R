@@ -3,6 +3,9 @@
 
 ## --- showing the output of the returned..
 
+# if error, ultimately, die with a error
+# show a clear, clean error message
+
 #' Render output of functions in a print friendly format
 #'
 #' @description
@@ -16,41 +19,41 @@
 #'
 render_funr <- function(x, max_rows = 100){
 
-	out = x$value
-	if(class(out)[1] == "try-error")
-		cat("")
-	vis = ifelse(length(x$visible) == 0, FALSE, x$visible)
+  #print(class(out))
+  if(class(x)[1] == "try-error")
+    cat("")
 
-	#message("visible status: ", vis)
+  out = try(x$value, silent = TRUE)
+  vis = ifelse(length(x$visible) == 0, FALSE, x$visible)
 
-	if(!vis){
-		return(cat(""))
+  #message("visible status: ", vis)
 
-	}else if(is.data.frame(out)){
-		message("Showing the first ", max_rows, " rows of the data.frame")
-		try(head(out, max_rows), silent = TRUE)
+  if(!vis){
+    return(cat(""))
 
-	}else if(class(out) == "help_files_with_topic"){
-		## print help files
-		print(out)
+  }else if(is.data.frame(out)){
+    message("Showing the first ", max_rows, " rows of the data.frame")
+    try(head(out, max_rows), silent = TRUE)
 
-	}else if(is.null(out)){
-		## skip NULL
-		cat("")
+  }else if(class(out) == "help_files_with_topic"){
+    ## print help files
+    print(out)
 
-	}else if(is.list(out)){
-		## print list
-		print(out)
+  }else if(is.null(out)){
+    ## skip NULL
+    cat("")
 
-	}else if(is.atomic(out)){
-		cat(out)
+  }else if(is.list(out)){
+    ## print list
+    print(out)
 
-	}else if(is.function(out)){
-		print(out)
+  }else if(is.atomic(out)){
+    cat(out)
 
-	}else{
-		cat("")
-	}
+  }else if(is.function(out)){
+    print(out)
+
+  }else{
+    cat("")
+  }
 }
-
-
